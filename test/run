@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 # Simple helper for running test scripts directly, since bats tends to be a
 # little opaque.
-
-set -euo pipefail
+set -u
 
 (( "$#" > 1 )) || echo "error: you must specify one or more test directories to execute" >&2
 
