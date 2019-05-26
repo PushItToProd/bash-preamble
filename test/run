@@ -3,7 +3,7 @@
 # little opaque.
 set -u
 
-(( "$#" > 1 )) || echo "error: you must specify one or more test directories to execute" >&2
+(( "$#" > 0 )) || echo "error: you must specify one or more test directories to execute" >&2
 
 for testdir in "$@"; do
   for testfile in "$(dirname "$0")/$1/"*.sh; do
