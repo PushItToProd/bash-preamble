@@ -9,6 +9,7 @@ set_flag() {
 revert_flag() {
     local -r flag="$1"
     unset -v "_preamble_${flag}"
+    set +o "$flag"
 }
 
 set_flag errexit
