@@ -7,4 +7,4 @@ if [[ ! -o errexit ]]; then
     exit 1
 fi
 
-echo passed
+echo $0 passed

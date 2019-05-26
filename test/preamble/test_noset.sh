@@ -9,4 +9,4 @@ for flag in errexit nounset pipefail; do
 done
 $fail && exit 1
 
-echo passed
+echo $0 passed
