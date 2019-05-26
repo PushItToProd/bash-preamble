@@ -1,14 +1,20 @@
-@test "test sourcing preamble.sh" {
+@test "sourcing preamble doesn't pollute shell flags" {
     load common
-    run preamble/test_noset.sh
+    run bash test/preamble/test_noset.sh
+    # echo "# $output" >&3
+    [ "$status" -eq 0 ]
 }
 
-@test "test sourcing preamble.sh with one flag set" {
+@test "sourcing preamble doesn't unset an already-set flag" {
     load common
-    run preamble/test_noset.sh
+    run bash test/preamble/test_noset.sh
+    # echo "# $output" >&3
+    [ "$status" -eq 0 ]
 }
 
-@test "test sourcing preamble.sh with all flags set" {
+@test "sourcing preamble doesn't unset multiple already-set flags" {
     load common
-    run preamble/test_noset.sh
+    run bash test/preamble/test_noset.sh
+    # echo "# $output" >&3
+    [ "$status" -eq 0 ]
 }
