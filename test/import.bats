@@ -27,5 +27,5 @@
         echo "$output" >&3
     fi
     [ "$status" -eq 1 ]
-    [ "$output" == "test/import/test_nonexistent_import.sh: line 4: module 'nonexistent_module' not found" ]
+    inString "test/import/test_nonexistent_import.sh: line 4: module 'nonexistent_module' not found" "${lines[0]}"
 }
