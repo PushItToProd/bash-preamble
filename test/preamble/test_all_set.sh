@@ -8,3 +8,5 @@ for flag in errexit nounset pipefail; do
         exit 1
     fi
 done
+
+echo passed

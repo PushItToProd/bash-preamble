@@ -18,3 +18,10 @@
     # echo "# $output" >&3
     [ "$status" -eq 0 ]
 }
+
+@test "sourcing preamble doesn't pollute the environment" {
+    load common
+    run bash test/preamble/test_array_unset.sh
+    # echo "# $output" >&3
+    [ "$status" -eq 0 ]
+}
