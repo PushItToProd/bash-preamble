@@ -1,23 +1,25 @@
-declare -a _PREAMBLE_SET_FLAGS=()
-
-set_flags() {
-    for flag in "$@"; do
-        if [[ ! -o "$flag" ]]; then
-            _PREAMBLE_SET_FLAGS+=("$flag")
-            set -o "$flag"
-        fi
-    done
+# Set the given flags
+_preamble_set_flags() {
+  declare -ag _PREAMBLE_SET_FLAGS=()
+  for flag in "$@"; do
+    if [[ ! -o "$flag" ]]; then
+      _PREAMBLE_SET_FLAGS+=("$flag")
+      set -o "$flag"
+    fi
+  done
 }
 
-revert_flags() {
-    for flag in "${_PREAMBLE_SET_FLAGS[@]}"; do
-        set +o "$flag"
-    done
-    unset _PREAMBLE_SET_FLAGS
+_preamble_revert_flags() {
+  for flag in "${_PREAMBLE_SET_FLAGS[@]}"; do
+    set +o "$flag"
+  done
+  unset -v _PREAMBLE_SET_FLAGS
+  unset -f _preamble_set_flags
+  unset -f _preamble_revert_flags
 }
 
-set_flags errexit nounset pipefail
+_preamble_set_flags errexit nounset pipefail
 
-source "$( dirname "${BASH_SOURCE[0]}")/executables.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/executables.sh"
 
-revert_flags
+_preamble_revert_flags
