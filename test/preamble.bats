@@ -22,6 +22,8 @@
 @test "sourcing preamble doesn't pollute the environment" {
     load common
     run bash test/preamble/test_array_unset.sh
-    # echo "# $output" >&3
+    if [[ $status -ne 0 ]]; then
+        echo "# $output" >&3
+    fi
     [ "$status" -eq 0 ]
 }

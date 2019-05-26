@@ -34,6 +34,22 @@ safe_readlink() {
   printf "$(safe_dirname "$SOURCE")"
 }
 
+# variables to unset on teardown
+_PREAMBLE_PRIVATE_VARS=(
+  _PREAMBLE_SET_FLAGS
+  _PREAMBLE_SOURCE_PATH
+  _PREAMBLE_PRIVATE_FUNCS
+  _PREAMBLE_PRIVATE_VARS
+)
+
+# functions to unset on teardown
+_PREAMBLE_PRIVATE_FUNCS=(
+  _preamble_set_flags
+  _preamble_revert_flags
+  _preamble_setup
+  _preamble_teardown
+)
+
 # Set the given flags
 _preamble_set_flags() {
   for flag in "$@"; do
@@ -61,9 +77,8 @@ _preamble_setup() {
 
 _preamble_teardown() {
   _preamble_revert_flags
-  unset -v _PREAMBLE_SET_FLAGS
-  unset -f _preamble_set_flags
-  unset -f _preamble_revert_flags
+  unset -f "${_PREAMBLE_PRIVATE_FUNCS[@]}"
+  unset -v "${_PREAMBLE_PRIVATE_VARS[@]}"
 }
 
 
