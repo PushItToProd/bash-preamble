@@ -2,6 +2,10 @@
 declare _IMPORT__SOURCE_FILE
 declare _IMPORT__SOURCE_DIR
 declare _IMPORT__LINE_NUMBER
+declare -a _IMPORT__DEFAULT_MODULEPATH=(
+  "$HOME/.local/lib/bashmod"
+  "/usr/local/lib/bashmod"
+)
 
 # Resolve a relative module path.
 _import::resolve_module_path() {
@@ -29,7 +33,11 @@ _import::search_module_path() {
   if declare -p MODULEPATH >/dev/null 2>&1; then
     _import::parse_modulepath parsed_modulepath
   fi
-  modulepath=("$_IMPORT__SOURCE_DIR" "${parsed_modulepath[@]}")
+  modulepath=(
+    "$_IMPORT__SOURCE_DIR"
+    "${parsed_modulepath[@]}"
+    "${_IMPORT_DEFAULT_MODULEPATH[@]}"
+  )
 
   for path in "${modulepath[@]}"; do
     try_path="$path/$resolved_module_path"
