@@ -30,10 +30,18 @@
     inString "test/import/test_nonexistent_import.sh: line 4: module 'nonexistent_module' not found" "${lines[0]}"
 }
 
-# TODO: test module path search
-@test "searches the module path" {
+@test "module search finds relative modules" {
     load common
+    run bash test/import/search_module_path.sh module_path.foo
+    [ "$status" -eq 0 ]
+    [ "$output" == "./test/import/module_path/foo.mod.bash" ]
+}
+
+@test "module search finds modules on a custom path" {
+    load common
+    export MODULEPATH="test/import/module_path"
     run bash test/import/search_module_path.sh foo
     [ "$status" -eq 0 ]
-    [ "$output" == "./test/import/foo.mod.bash" ]
+    [ "$output" == "./test/import/module_path/foo.mod.bash" ]
+    unset MODULEPATH
 }
