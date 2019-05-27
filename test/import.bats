@@ -46,7 +46,15 @@
     unset MODULEPATH
 }
 
-@test "path construction works" {
+@test "path construction works with simple paths" {
+    load common
+    run bash test/invoke.sh _import::construct_path /foo a
+    echo "$output" >&3
+    [ "$status" -eq 0 ]
+    [ "$output" == "/foo/a.mod.bash" ]
+}
+
+@test "path construction works with nested paths" {
     load common
     run bash test/invoke.sh _import::construct_path /foo/bar/baz a.b.c
     echo "$output" >&3
