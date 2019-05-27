@@ -7,7 +7,7 @@ declare _IMPORT__LINE_NUMBER
 _import::construct_path() {
   local -r script_dir="$1"
   local -r module_path="$2"
-  local -r actual_path="$script_dir/${module_path/.//}.mod.bash"
+  local -r actual_path="$script_dir/${module_path//.//}.mod.bash"
   printf "%s" "$actual_path"
 }
 
