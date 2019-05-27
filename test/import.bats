@@ -62,6 +62,20 @@
     [ "$output" == "a/b/c.mod.bash" ]
 }
 
+# _import::parse_modulepath
+@test "modulepath is parsed correctly" {
+    load common
+    export MODULEPATH="/foo:/bar:/baz/buzz:$HOME/modules"
+    local -a modulepath=()
+    source lib/preamble.sh
+    _import::parse_modulepath modulepath
+    echo "modulepath: ${modulepath[@]}" >&3
+    [ "${modulepath[0]}" == "/foo" ]
+    [ "${modulepath[1]}" == "/bar" ]
+    [ "${modulepath[2]}" == "/baz/buzz" ]
+    [ "${modulepath[3]}" == "$HOME/modules" ]
+}
+
 teardown() {
     unset MODULEPATH
 }

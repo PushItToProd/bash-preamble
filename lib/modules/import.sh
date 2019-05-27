@@ -9,6 +9,12 @@ _import::resolve_module_path() {
   printf '%s' "${module_path//.//}.mod.bash"
 }
 
+# Parse the modulepath into the given array
+_import::parse_modulepath() {
+  local modulepath_array_name="$1"
+  string::split ":" "$MODULEPATH" "$modulepath_array_name"
+}
+
 # TODO: reimplement search_module_path
 _import::search_module_path() {
   local -r module_path="$1"
