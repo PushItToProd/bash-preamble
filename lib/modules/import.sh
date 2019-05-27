@@ -10,6 +10,25 @@ _import::resolve_module_path() {
 }
 
 # TODO: reimplement search_module_path
+_import::search_module_path() {
+  local -r module_path="$1"
+  local -r resolved_module_path="$(_import::resolve_module_path "$module_path")"
+  # TODO: add paths from MODULEPATH
+  local -a modulepath=("$_IMPORT__SOURCE_DIR")
+  local try_path
+
+  for path in "${modulepath[@]}"; do
+    try_path="$path/$resolved_module_path"
+    if [[ -e "$try_path" ]]; then
+      printf '%s' "$try_path"
+      return 0
+    fi
+  done
+
+  echo "$_IMPORT__SOURCE_FILE: line $_IMPORT__LINE_NUMBER: module" \
+       "'$module_path' not found (searched $module_path)" >&2
+  return 1
+}
 
 importmod() {
   local -r mod="$1"

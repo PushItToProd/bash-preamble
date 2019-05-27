@@ -32,17 +32,19 @@
 
 @test "module search finds relative modules" {
     load common
+    export _IMPORT__SOURCE_DIR="test/import"
     run bash test/invoke.sh _import::search_module_path module_path.foo
     [ "$status" -eq 0 ]
-    [ "$output" == "./test/import/module_path/foo.mod.bash" ]
+    [ "$output" == "test/import/module_path/foo.mod.bash" ]
 }
 
 @test "module search finds modules on a custom path" {
     load common
+    export _IMPORT__SOURCE_DIR="test/import"
     export MODULEPATH="test/import/module_path"
     run bash test/invoke.sh _import::search_module_path foo
     [ "$status" -eq 0 ]
-    [ "$output" == "./test/import/module_path/foo.mod.bash" ]
+    [ "$output" == "test/import/module_path/foo.mod.bash" ]
 }
 
 # _import::resolve_module_path
