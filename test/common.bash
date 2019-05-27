@@ -4,7 +4,3 @@ export PREAMBLE="lib/preamble.sh"
 inString() {
   [ -z "${2##*$1*}" ]
 }
-
-invoke() {
-  run test/invoke.sh "$@"
-}
