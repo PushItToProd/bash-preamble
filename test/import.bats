@@ -29,3 +29,11 @@
     [ "$status" -eq 1 ]
     inString "test/import/test_nonexistent_import.sh: line 4: module 'nonexistent_module' not found" "${lines[0]}"
 }
+
+# TODO: test module path search
+@test "searches the module path" {
+    load common
+    run bash test/import/search_module_path.sh foo
+    [ "$status" -eq 0 ]
+    [ "$output" == "./test/import/foo.mod.bash" ]
+}
