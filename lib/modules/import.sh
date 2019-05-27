@@ -15,13 +15,21 @@ _import::parse_modulepath() {
   string::split ":" "$MODULEPATH" "$modulepath_array_name"
 }
 
-# TODO: reimplement search_module_path
+# Search the relative directory and modulepath for the module, returning its
+# location.
 _import::search_module_path() {
   local -r module_path="$1"
   local -r resolved_module_path="$(_import::resolve_module_path "$module_path")"
-  # TODO: add paths from MODULEPATH
-  local -a modulepath=("$_IMPORT__SOURCE_DIR")
+
+  local -a modulepath=()
+  local -a parsed_modulepath=()
   local try_path
+
+  # Parse modulepath.
+  if declare -p MODULEPATH >/dev/null 2>&1; then
+    _import::parse_modulepath parsed_modulepath
+  fi
+  modulepath=("$_IMPORT__SOURCE_DIR" "${parsed_modulepath[@]}")
 
   for path in "${modulepath[@]}"; do
     try_path="$path/$resolved_module_path"
@@ -32,21 +40,16 @@ _import::search_module_path() {
   done
 
   echo "$_IMPORT__SOURCE_FILE: line $_IMPORT__LINE_NUMBER: module" \
-       "'$module_path' not found (searched $module_path)" >&2
+       "'$module_path' not found (searched ${modulepath[*]})" >&2
   return 1
 }
 
 importmod() {
-  local -r mod="$1"
+  local -r module_path="$1"
   _IMPORT__SOURCE_FILE="${BASH_SOURCE[1]}"
-  _IMPORT__SOURCE_DIR="$(realpath $(dirname "$_IMPORT__SOURCE_FILE"))"
+  _IMPORT__SOURCE_DIR="$(realpath "$(dirname "$_IMPORT__SOURCE_FILE")")"
   _IMPORT__LINE_NUMBER="${BASH_LINENO[0]}"
-  local -r resolved_module_path="$(_import::resolve_module_path "$mod")"
-  local -r module_path="$_IMPORT__SOURCE_DIR/$resolved_module_path"
-
-  if [[ ! -e "$module_path" ]]; then
-    echo "$_IMPORT__SOURCE_FILE: line $_IMPORT__LINE_NUMBER: module '$mod' not found (searched $module_path)"
-    return 1
-  fi
-  source "$module_path"
+  local path_to_module
+  path_to_module="$(_import::search_module_path "$module_path")"
+  source "$path_to_module"
 }
