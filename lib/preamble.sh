@@ -21,6 +21,7 @@ is_relative_path() {
 
 # Resolve nested and relative symlinks.
 # (based on https://stackoverflow.com/a/246128)
+# TODO: check if there's any reason to prefer this over `realpath`
 safe_readlink() {
   local SOURCE="$1"
   local DIR

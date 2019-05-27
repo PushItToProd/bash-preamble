@@ -3,10 +3,13 @@
 # little opaque.
 set -u
 
+export PREAMBLE="lib/preamble.sh"
+
 (( "$#" > 0 )) || echo "error: you must specify one or more test directories to execute" >&2
 
 for testdir in "$@"; do
-  for testfile in "$(dirname "$0")/$1/"*.sh; do
+  for testfile in "$(dirname "$0")/$testdir/"*.sh; do
+    echo
     echo ">>>> $testfile <<<<"
     bash "$testfile"
   done
