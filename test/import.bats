@@ -45,18 +45,19 @@
     [ "$output" == "./test/import/module_path/foo.mod.bash" ]
 }
 
-@test "path construction works with simple paths" {
+# _import::resolve_module_path
+@test "path resolution works with simple paths" {
     load common
-    run bash test/invoke.sh _import::construct_path /foo a
+    run bash test/invoke.sh _import::resolve_module_path a
     [ "$status" -eq 0 ]
-    [ "$output" == "/foo/a.mod.bash" ]
+    [ "$output" == "a.mod.bash" ]
 }
 
-@test "path construction works with nested paths" {
+@test "path resolution works with nested paths" {
     load common
-    run bash test/invoke.sh _import::construct_path /foo/bar/baz a.b.c
+    run bash test/invoke.sh _import::resolve_module_path a.b.c
     [ "$status" -eq 0 ]
-    [ "$output" == "/foo/bar/baz/a/b/c.mod.bash" ]
+    [ "$output" == "a/b/c.mod.bash" ]
 }
 
 teardown() {
