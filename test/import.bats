@@ -43,13 +43,11 @@
     run bash test/invoke.sh _import::search_module_path foo
     [ "$status" -eq 0 ]
     [ "$output" == "./test/import/module_path/foo.mod.bash" ]
-    unset MODULEPATH
 }
 
 @test "path construction works with simple paths" {
     load common
     run bash test/invoke.sh _import::construct_path /foo a
-    echo "$output" >&3
     [ "$status" -eq 0 ]
     [ "$output" == "/foo/a.mod.bash" ]
 }
@@ -57,7 +55,10 @@
 @test "path construction works with nested paths" {
     load common
     run bash test/invoke.sh _import::construct_path /foo/bar/baz a.b.c
-    echo "$output" >&3
     [ "$status" -eq 0 ]
     [ "$output" == "/foo/bar/baz/a/b/c.mod.bash" ]
+}
+
+teardown() {
+    unset MODULEPATH
 }
