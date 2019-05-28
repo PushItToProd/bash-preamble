@@ -85,6 +85,6 @@ _preamble_teardown() {
 
 _preamble_setup
 
-source "$_PREAMBLE_SOURCE_PATH/modules/executables.sh"
+source "$_PREAMBLE_SOURCE_PATH/loader.sh"
 
 _preamble_teardown
