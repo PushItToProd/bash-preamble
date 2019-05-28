@@ -48,9 +48,9 @@ The following needs to be done:
     - Relative to the real location of the script.
       - Fully resolve symlinks to get `/usr/local/mylib`
       - Check if `/usr/local/mylib/a/b/c.mod.bash` exists
-    - In modulepath locations:
+    - In `MODULEPATH` locations:
       - Check if `/opt/bashmod/a/b/c.mod.bash` exists
-    - In default modulepath locations:
+    - In default `MODULEPATH` locations:
       - Check if `~/.local/lib/bashmod/a/b/c.mod.bash` exists
       - Check if `/usr/local/lib/bashmod/a/b/c.mod.bash` exists
     - If the module was not found, throw an error.
